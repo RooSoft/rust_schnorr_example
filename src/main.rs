@@ -17,14 +17,14 @@ fn sign() -> [u8; 64] {
         .unwrap_or_else(|_| panic!("low-level Schnorr signing failure for index"))
         .as_ref()
         .try_into()
-        .unwrap()
+        .unwrap_or_else(|_| panic!("low-level Schnorr signing failure for index"))
 }
 
 fn verify() -> Result<(), k256::ecdsa::Error> {
     let signature = Signature::from_bytes(&SIGNATURE).unwrap();
 
     VerifyingKey::from_bytes(&PUBLIC_KEY)
-        .unwrap()
+        .unwrap_or_else(|_| panic!("low-level Schnorr verification failure for index"))
         .verify_prehashed(&CONTENTS, &signature)
 }
 
