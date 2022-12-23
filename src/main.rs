@@ -11,9 +11,9 @@ const SIGNATURE: [u8; 64] = hex!("E907831F80848D1069A5371B402410364BDF1C5F8307B0
 
 fn sign() -> [u8; 64] {
     // from https://docs.rs/k256/latest/src/k256/schnorr.rs.html#268
-    let sk = SigningKey::from_bytes(&KEY).unwrap();
-
-    sk.try_sign_prehashed(&CONTENTS, &AUX_RAND)
+    SigningKey::from_bytes(&KEY)
+        .unwrap()
+        .try_sign_prehashed(&CONTENTS, &AUX_RAND)
         .unwrap_or_else(|_| panic!("low-level Schnorr signing failure for index"))
         .as_ref()
         .try_into()
@@ -22,9 +22,10 @@ fn sign() -> [u8; 64] {
 
 fn verify() -> Result<(), k256::ecdsa::Error> {
     let signature = Signature::from_bytes(&SIGNATURE).unwrap();
-    let verifying_key = VerifyingKey::from_bytes(&PUBLIC_KEY).unwrap();
 
-    verifying_key.verify_prehashed(&CONTENTS, &signature)
+    VerifyingKey::from_bytes(&PUBLIC_KEY)
+        .unwrap()
+        .verify_prehashed(&CONTENTS, &signature)
 }
 
 fn main() {
