@@ -1,5 +1,6 @@
 use hex_literal::hex;
-use k256::schnorr::{signature::Verifier, Signature, SigningKey, VerifyingKey};
+use k256::schnorr::signature::Signature;
+use k256::schnorr::{signature::Verifier, Error, SigningKey, VerifyingKey};
 
 fn sign() {
     let key = hex!("0000000000000000000000000000000000000000000000000000000000000003");
@@ -28,15 +29,23 @@ fn sign() {
     }
 }
 
-fn verify() {
+fn verify() -> () {
     let contents = hex!("0000000000000000000000000000000000000000000000000000000000000000");
     let sig = hex!("E907831F80848D1069A5371B402410364BDF1C5F8307B0084C55F1CE2DCA821525F66A4A85EA8B71E482A74F382D2CE5EBEEE8FDB2172F477DF4900D310536C0");
     let public_key = hex!("F9308A019258C31049344F85F89D5229B531C845836F99B08601F113BCE036F9");
 
-    let signature = Signature::from_bytes(&sig);
+    let signature = Signature::from_bytes(&sig).unwrap();
 
-    let verifying_key = VerifyingKey::from_bytes(&public_key)?;
-    let results = verifying_key.verify(&contents, &signature);
+    let verifying_key = VerifyingKey::from_bytes(&public_key).unwrap();
+
+    println!("signature {:?}", signature);
+    println!("verifying_key {:?}", verifying_key);
+
+    let results = verifying_key.verify(&contents, &signature).unwrap();
+
+    println!("{:?}", results);
+
+    results
 }
 
 fn main() {
