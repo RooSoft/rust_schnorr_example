@@ -38,7 +38,7 @@ fn verify() -> Result<(), k256::ecdsa::Error> {
     println!("signature {:?}", signature);
     println!("verifying_key {:?}", verifying_key);
 
-    let results = verifying_key.verify(&CONTENTS, &signature);
+    let results = verifying_key.verify_prehashed(&CONTENTS, &signature);
 
     results
 }
