@@ -31,14 +31,15 @@ fn verify() -> Result<(), k256::ecdsa::Error> {
 fn main() {
     let signature = sign();
 
-    println!("signature: {:?}", signature);
-    println!("expected : {:?}", SIGNATURE);
-    println!("valid? {:?}", signature == SIGNATURE);
+    match signature == SIGNATURE {
+        true => println!("signature OK"),
+        false => println!("signature ERROR"),
+    }
 
     let verify_results = verify();
 
     match verify_results {
-        Ok(_) => println!("signature correct"),
-        Err(e) => println!("signature wrong {e:?}"),
+        Ok(_) => println!("validation OK"),
+        Err(e) => println!("validation ERROR {e:?}"),
     }
 }
