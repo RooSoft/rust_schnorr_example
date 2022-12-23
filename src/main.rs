@@ -1,6 +1,6 @@
 use hex_literal::hex;
 use k256::schnorr::signature::Signature;
-use k256::schnorr::{signature::Verifier, SigningKey, VerifyingKey};
+use k256::schnorr::{SigningKey, VerifyingKey};
 
 const KEY: [u8; 32] = hex!("0000000000000000000000000000000000000000000000000000000000000003");
 const PUBLIC_KEY: [u8; 32] =
